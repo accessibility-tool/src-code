@@ -85,8 +85,9 @@ def getResponse(userText):
                 global word_tokens
                 word_tokens = word_tokens + nltk.word_tokenize(userText)
                 final_words = list(set(word_tokens))
-                return response(userText)
+                x = response(userText)
                 sent_tokens.remove(userText)
+                return x
     else:
         return "Bye! Take Care!"
 
