@@ -28,20 +28,24 @@ if (regex.test(url)) {
     let wikisubdiv = document.getElementById("siteSub"); // "From wikipedia the free encyclopedia" div
     let chatdiv = document.createElement("div");
     let linkdiv = document.createElement("div");
-    wikisubdiv.appendChild(chatdiv);
-    let chatoutput = document.createElement("div");
-    wikisubdiv.appendChild(chatoutput);
-    wikisubdiv.appendChild(linkdiv);
+    let emptydiv = document.createElement("div");
+    emptydiv.textContent = " ";
   
+  
+    let chatlabel = document.createElement("div");
+    chatlabel.textContent = "Enter your query here:"
+    chatdiv.appendChild(chatlabel);
+  
+    let chatoutput = document.createElement("div");
     let chatinput = document.createElement("input");
+
     chatinput.setAttribute("type", "text");
     chatinput.id = "inputform";
     chatinput.style.border = "solid #D4F1F4";
     chatinput.style.borderRadius = "5px";
     chatinput.style.marginRight = "10px";
     chatdiv.appendChild(chatinput);
-    let linksoutput = document.createElement("div");
-
+    wikisubdiv.appendChild(chatdiv);
     let btn = document.createElement("button");
     let t = document.createTextNode("Submit");
     btn.id = "button";
@@ -53,7 +57,17 @@ if (regex.test(url)) {
     btn.appendChild(t);
     btn.style.boxShadow = "1px 1px 1px gray";
     chatdiv.appendChild(btn);
+    chatdiv.appendChild(chatoutput);    
+    chatoutput.textContent = "Hello!";
   
+    wikisubdiv.appendChild(emptydiv);
+    wikisubdiv.appendChild(emptydiv);
+    wikisubdiv.appendChild(linkdiv);
+  
+    let linklabel = document.createElement("div");
+    linkdiv.appendChild(linklabel);
+    linklabel.textContent = "Type in the number of links you want for further reading:"
+    let linksoutput = document.createElement("div");  
     let linksinput = document.createElement("input");
     linksinput.setAttribute("type", "text");
     linksinput.id = "linkinput";
@@ -72,13 +86,14 @@ if (regex.test(url)) {
     btn2.style.boxShadow = "1px 1px 1px gray";
     btn2.appendChild(t2);
     linkdiv.appendChild(btn2);
-
+    linkdiv.appendChild(linksoutput);
+    
+  
     let mees = "hi"; 
     let numb = '10';
 
-    chatoutput.textContent = "Loading";
     
-    wikisubdiv.appendChild(linksoutput);
+    
 
   
    async function train() {
