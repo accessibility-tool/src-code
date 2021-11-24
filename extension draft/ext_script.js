@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        wiki_script
+// @name        wiki_script1
 // @namespace   Violentmonkey Scripts
 // @match       *://*wikipedia*/*
 // @grant       none
@@ -36,13 +36,22 @@ if (regex.test(url)) {
     let chatinput = document.createElement("input");
     chatinput.setAttribute("type", "text");
     chatinput.id = "inputform";
+    chatinput.style.borderColor = "solid #D4F1F4";
+    chatinput.style.borderRadius = "5px";
+    chatinput.style.marginRight = "10px";
     chatdiv.appendChild(chatinput);
     let linksoutput = document.createElement("div");
 
     let btn = document.createElement("button");
     let t = document.createTextNode("Submit");
     btn.id = "button";
+    btn.style.backgroundColor = "#D4F1F4";
+    btn.style.font = "16px Calibri";
+    btn.style.borderRadius = "5px";
+    btn.style.borderWidth = "thin";
+    btn.style.borderColor = "#D4F1F4";
     btn.appendChild(t);
+    btn.style.boxShadow = "1px 1px 1px gray";
     chatdiv.appendChild(btn);
     
     
@@ -50,10 +59,19 @@ if (regex.test(url)) {
     let linksinput = document.createElement("input");
     linksinput.setAttribute("type", "text");
     linksinput.id = "linkinput";
+    linksinput.style.borderColor = "solid S#D4F1F4";
+    linksinput.style.borderRadius = "5px";
+    linksinput.style.marginRight = "10px";
     linkdiv.appendChild(linksinput);
     let btn2 = document.createElement("button");
     let t2 = document.createTextNode("Get links");
     btn2.id = "linkbutton";
+    btn2.style.backgroundColor = "#D4F1F4";
+    btn2.style.font = "16px Calibri";
+    btn2.style.borderRadius = "5px";
+    btn2.style.borderWidth = "thin";
+    btn2.style.borderColor = "#D4F1F4";
+    btn2.style.boxShadow = "1px 1px 1px gray";
     btn2.appendChild(t2);
     linkdiv.appendChild(btn2);
 
@@ -125,7 +143,6 @@ if (regex.test(url)) {
                   
   
 }
-
 
 
 
