@@ -29,23 +29,23 @@ if (regex.test(url)) {
     let chatdiv = document.createElement("div");
     let linkdiv = document.createElement("div");
     let emptydiv = document.createElement("div");
-    emptydiv.textContent = " ";
+    wikisubdiv.appendChild(chatdiv);
+    wikisubdiv.appendChild(emptydiv);
+    wikisubdiv.appendChild(emptydiv);
+    wikisubdiv.appendChild(linkdiv);
   
   
     let chatlabel = document.createElement("div");
     chatlabel.textContent = "Enter your query here:"
     chatdiv.appendChild(chatlabel);
-  
     let chatoutput = document.createElement("div");
     let chatinput = document.createElement("input");
-
     chatinput.setAttribute("type", "text");
     chatinput.id = "inputform";
     chatinput.style.border = "solid #D4F1F4";
     chatinput.style.borderRadius = "5px";
     chatinput.style.marginRight = "10px";
     chatdiv.appendChild(chatinput);
-    wikisubdiv.appendChild(chatdiv);
     let btn = document.createElement("button");
     let t = document.createTextNode("Submit");
     btn.id = "button";
@@ -59,10 +59,7 @@ if (regex.test(url)) {
     chatdiv.appendChild(btn);
     chatdiv.appendChild(chatoutput);    
     chatoutput.textContent = "Hello!";
-  
-    wikisubdiv.appendChild(emptydiv);
-    wikisubdiv.appendChild(emptydiv);
-    wikisubdiv.appendChild(linkdiv);
+
   
     let linklabel = document.createElement("div");
     linkdiv.appendChild(linklabel);
@@ -92,7 +89,6 @@ if (regex.test(url)) {
     let mees = "hi"; 
     let numb = '10';
 
-    
     
 
   
