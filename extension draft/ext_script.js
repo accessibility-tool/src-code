@@ -36,7 +36,7 @@ if (regex.test(url)) {
     let chatinput = document.createElement("input");
     chatinput.setAttribute("type", "text");
     chatinput.id = "inputform";
-    chatinput.style.borderColor = "solid #D4F1F4";
+    chatinput.style.border = "solid #D4F1F4";
     chatinput.style.borderRadius = "5px";
     chatinput.style.marginRight = "10px";
     chatdiv.appendChild(chatinput);
@@ -53,13 +53,11 @@ if (regex.test(url)) {
     btn.appendChild(t);
     btn.style.boxShadow = "1px 1px 1px gray";
     chatdiv.appendChild(btn);
-    
-    
   
     let linksinput = document.createElement("input");
     linksinput.setAttribute("type", "text");
     linksinput.id = "linkinput";
-    linksinput.style.borderColor = "solid S#D4F1F4";
+    linksinput.style.border = "solid #D4F1F4";
     linksinput.style.borderRadius = "5px";
     linksinput.style.marginRight = "10px";
     linkdiv.appendChild(linksinput);
@@ -143,19 +141,3 @@ if (regex.test(url)) {
                   
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
