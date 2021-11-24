@@ -10,7 +10,7 @@
 // @description 22/11/2021, 02:41:03
 // ==/UserScript==
 
-API_URL = "https://e0b3-124-253-120-242.ngrok.io/";
+API_URL = "https://55cd-49-156-77-5.ngrok.io/";
 
 //get the url of the page
 let url = window.location.href;
@@ -25,33 +25,44 @@ if (regex.test(url)) {
     let content = url.replace(rep_regex, "").replaceAll("_", " "); //if its a wiki page,
     console.log(content); //extract the name of the page
 
-    let heading1 = document.getElementById("siteSub"); 
-    let heading = document.createElement("div");
-    heading1.appendChild(heading);
-    let newElement = document.createElement("div");
-    let newElement1 = document.createElement("input");
-    newElement1.setAttribute("type", "text");
-    newElement1.id = "inputform";
-    heading.appendChild(newElement1);
-    let newElement2 = document.createElement("div");
+    let wikisubdiv = document.getElementById("siteSub"); // "From wikipedia the free encyclopedia" div
+    let chatdiv = document.createElement("div");
+    let linkdiv = document.createElement("div");
+    wikisubdiv.appendChild(chatdiv);
+    let chatoutput = document.createElement("div");
+    wikisubdiv.appendChild(chatoutput);
+    wikisubdiv.appendChild(linkdiv);
   
+    let chatinput = document.createElement("input");
+    chatinput.setAttribute("type", "text");
+    chatinput.id = "inputform";
+    chatdiv.appendChild(chatinput);
+    let linksoutput = document.createElement("div");
+
     let btn = document.createElement("button");
     let t = document.createTextNode("Submit");
     btn.id = "button";
     btn.appendChild(t);
-    heading.appendChild(btn);
+    chatdiv.appendChild(btn);
     
+    
+  
+    let linksinput = document.createElement("input");
+    linksinput.setAttribute("type", "text");
+    linksinput.id = "linkinput";
+    linkdiv.appendChild(linksinput);
     let btn2 = document.createElement("button");
     let t2 = document.createTextNode("Get links");
     btn2.id = "linkbutton";
     btn2.appendChild(t2);
-    heading.appendChild(btn2);  
+    linkdiv.appendChild(btn2);
 
-    let mees = "hi";
+    let mees = "hi"; 
+    let numb = '10';
 
-    newElement.textContent = "Loading";
-    heading1.appendChild(newElement);
-    heading1.appendChild(newElement2);
+    chatoutput.textContent = "Loading";
+    
+    wikisubdiv.appendChild(linksoutput);
 
   
    async function train() {
@@ -77,7 +88,7 @@ if (regex.test(url)) {
         get_resp().then((data) => {
             //making call to api
             console.log(data);
-            newElement.textContent = data.message;
+            chatoutput.textContent = data.message;
         });
     });
         
@@ -88,7 +99,7 @@ if (regex.test(url)) {
     return data;
   }
   async function get_resp_clus() {
-        let resp = await fetch(API_URL +`cluster/${content}/10`); //async function to handle call
+        let resp = await fetch(API_URL +`cluster/${content}/${numb}`); //async function to handle call
         let data = await resp.json();
         return data;
     }
@@ -96,10 +107,18 @@ if (regex.test(url)) {
   
   get_name().then((data) => {
     document.getElementById("linkbutton").addEventListener("click", function() {
-          console.log("clicked");
+    console.log("clicked");
+    
+    numb = document.getElementById('linkinput').value;
+    if (numb == ""){
+      
+      numb = '10';
+      console.log(numb);
+
+    }
     get_resp_clus().then((data) => {
       console.log(data);
-      newElement2.textContent = data.recommendations;
+      linksoutput.textContent = data.recommendations;
     });
     });
   });
