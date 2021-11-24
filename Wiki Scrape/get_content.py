@@ -1,16 +1,22 @@
-# -*- coding: utf-8 -*-
-
 import wikipedia
+import re
 
-test = wikipedia.page("Book")
+test = wikipedia.page("Mathematics")
 title = test.title
 links = test.links
 test = test.content
-test = test.replace("=====","-----")
-test = test.replace("====","----")
-test = test.replace("===","---")
 
-test = test.split("==")
+test = re.sub(" == ", "[==]", test)
+test = re.sub(" === ", "[===]", test)
+
+#print(test)
+
+test = re.sub("=====","-----", test)
+test = re.sub("====","----", test)
+test = re.sub("===","---", test)
+test = re.sub("== ", " ==", test)
+
+test = test.split(" ==")
 n = len(test)
 for i in range(0,n):
     test[i] = (test[i]).strip()
@@ -34,16 +40,3 @@ for i in range(1,n,2):
                 f.append(l)
                 link[test[i]] = (f)
     dic[test[i]] = test[i+1]
-
-for el in link:
-    print(el)
-    print(link[el])
-    print("----------------------------------------------------------------------------------------------------------------------------")
-
-print()
-print()
-
-for el in dic:
-    print(el)
-    print(dic[el])
-    print("----------------------------------------------------------------------------------------------------------------------------")
