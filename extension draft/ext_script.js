@@ -37,6 +37,7 @@ if (regex.test(url)) {
   
     let chatlabel = document.createElement("div");
     chatlabel.textContent = "Enter your query here:"
+    chatlabel.style.font = "bold 14px Calibri";
     chatdiv.appendChild(chatlabel);
     let chatoutput = document.createElement("div");
     let chatinput = document.createElement("input");
@@ -64,6 +65,7 @@ if (regex.test(url)) {
     let linklabel = document.createElement("div");
     linkdiv.appendChild(linklabel);
     linklabel.textContent = "Type in the number of links you want for further reading:"
+    linklabel.style.font = "bold 14px Calibri";
     let linksoutput = document.createElement("div");  
     let linksinput = document.createElement("input");
     linksinput.setAttribute("type", "text");
@@ -80,9 +82,22 @@ if (regex.test(url)) {
     btn2.style.borderRadius = "5px";
     btn2.style.borderWidth = "thin";
     btn2.style.borderColor = "#D4F1F4";
+    btn2.style.marginRight = "10px";
     btn2.style.boxShadow = "1px 1px 1px gray";
     btn2.appendChild(t2);
     linkdiv.appendChild(btn2);
+    linkdiv.appendChild(linksoutput);
+    let btn3 = document.createElement("button");
+    let t3 = document.createTextNode("Get Summary");
+    btn3.id = "linkbutton";
+    btn3.style.backgroundColor = "#D4F1F4";
+    btn3.style.font = "16px Calibri";
+    btn3.style.borderRadius = "5px";
+    btn3.style.borderWidth = "thin";
+    btn3.style.borderColor = "#D4F1F4";
+    btn3.style.boxShadow = "1px 1px 1px gray";
+    btn3.appendChild(t3);
+    linkdiv.appendChild(btn3);
     linkdiv.appendChild(linksoutput);
     
   
@@ -90,7 +105,6 @@ if (regex.test(url)) {
     let numb = '10';
 
     
-
   
    async function train() {
         let resp = await fetch(API_URL + `chatbot/${content}`); //async function to handle call
