@@ -10,7 +10,7 @@
 // @description 22/11/2021, 02:41:03
 // ==/UserScript==
 
-API_URL = "https://55cd-49-156-77-5.ngrok.io/";
+API_URL = "https://5007-210-56-120-202.ngrok.io/";
 
 //get the url of the page
 let url = window.location.href;
@@ -24,16 +24,15 @@ if (regex.test(url)) {
     const rep_regex = new RegExp(".*://.*wikipedia.*/wiki/");
     let content = url.replace(rep_regex, "").replaceAll("_", " "); //if its a wiki page,
     console.log(content); //extract the name of the page
-
+    let sec = document.getElementsByTagName("h2");
     let wikisubdiv = document.getElementById("siteSub"); // "From wikipedia the free encyclopedia" div
     let chatdiv = document.createElement("div");
     let linkdiv = document.createElement("div");
-    let emptydiv = document.createElement("div");
+    let summarydiv = document.createElement("div");
     wikisubdiv.appendChild(chatdiv);
-    wikisubdiv.appendChild(emptydiv);
-    wikisubdiv.appendChild(emptydiv);
     wikisubdiv.appendChild(linkdiv);
-  
+    wikisubdiv.appendChild(summarydiv);
+
   
     let chatlabel = document.createElement("div");
     chatlabel.textContent = "Enter your query here:"
@@ -89,7 +88,7 @@ if (regex.test(url)) {
     linkdiv.appendChild(linksoutput);
     let btn3 = document.createElement("button");
     let t3 = document.createTextNode("Get Summary");
-    btn3.id = "linkbutton";
+    btn3.id = "summary"
     btn3.style.backgroundColor = "#D4F1F4";
     btn3.style.font = "16px Calibri";
     btn3.style.borderRadius = "5px";
@@ -98,7 +97,9 @@ if (regex.test(url)) {
     btn3.style.boxShadow = "1px 1px 1px gray";
     btn3.appendChild(t3);
     linkdiv.appendChild(btn3);
+    linksoutput.style.font = "16px Calibri";
     linkdiv.appendChild(linksoutput);
+    
     
   
     let mees = "hi"; 
@@ -140,29 +141,60 @@ if (regex.test(url)) {
     return data;
   }
   async function get_resp_clus() {
-        let resp = await fetch(API_URL +`cluster/${content}/${numb}`); //async function to handle call
-        let data = await resp.json();
-        return data;
+    let resp = await fetch(API_URL +`cluster/${content}/${numb}`); //async function to handle call
+    let data = await resp.json();
+    return data;
+    }
+  async function get_sum(){
+    let resp = await fetch(API_URL +`summary/${content}`);
+    let data = await resp.json();
+    return data;
+  }
+  async function get_sectionlinks() {
+    let resp = await fetch(API_URL +`section/${content}/10`); //async function to handle call
+    let data = await resp.json();
+    return data;
     }
   
   
   get_name().then((data) => {
     document.getElementById("linkbutton").addEventListener("click", function() {
     console.log("clicked");
-    
     numb = document.getElementById('linkinput').value;
     if (numb == ""){
-      
       numb = '10';
       console.log(numb);
-
     }
     get_resp_clus().then((data) => {
-      console.log(data);
-      linksoutput.textContent = data.recommendations;
+      //console.log(data);
+      linksoutput.textContent = data.recommendations.toString().split(',').join(', ');
+    });
+    get_sectionlinks().then((data) => {
+      var valoutputs = Object.values(data.recommendations);
+      //var ite = 0;
+      var rec = document.createElement("div");
+      rec.style.font = "16px Calibri";
+      rec.textContent = valoutputs[0].toString().split(',').join(', ');
+      linksoutput.appendChild(rec)
+      for(var ite = 1; ite<valoutputs.length; ite++){
+        let temp = document.createElement("div");
+        temp.class = "sectiondiv"
+        temp.style.font = "16px Calibri";
+        
+        temp.textContent = valoutputs[ite].toString().split(',').join(', ');
+        sec[ite].appendChild(temp);
+      }
+      console.log(Object.values(data.recommendations));
+      //linksoutput.textContent = data.recommendations;
+    });
+    });
+    document.getElementById("summary").addEventListener("click", function() {
+    console.log("clickedsummary");
+    get_sum().then((data1) => {
+      console.log(data1);
+      summarydiv.textContent = "Summary: " + data1.summary;
     });
     });
   });
-                  
   
 }
