@@ -192,7 +192,9 @@ if (regex.test(url)) {
     console.log("clickedsummary");
     get_sum().then((data1) => {
       console.log(data1);
+      summarydiv.style.fontStyle = "bold";
       summarydiv.textContent = "Summary: " + data1.summary;
+      
     });
     });
   });
