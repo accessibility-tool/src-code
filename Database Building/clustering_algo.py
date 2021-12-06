@@ -18,13 +18,22 @@ class clusters:
         return result.single()
 
     @staticmethod
-    def set_weight_category(tx):
+    def set_weight_category(tx, param):
         result=tx.run(
                       "match (n:CONTENT)-[:BELONGS_TO]->(:CATEGORY)<-[:BELONGS_TO]-(m:CONTENT) "
                       "match paths=(n)-[r:LINKS_TO]-(m) "
-                      "set r.weight=r.weight*1.8 "
+                      "set r.weight=r.weight+$param ", param=param
                       )
         return result.single()
+
+    # @staticmethod
+    # def set_weight_category(tx, param):
+    #     result=tx.run(
+    #                   "match (n:CONTENT)-[:BELONGS_TO]->(:CATEGORY)<-[:BELONGS_TO]-(m:CONTENT) "
+    #                   "match paths=(n)-[r:LINKS_TO]-(m) "
+    #                   "set r.weight=r.weight+$param ", param=param
+    #                   )
+    #     return result.single()
 
     @staticmethod
     def set_cluster(tx):
@@ -51,7 +60,7 @@ class clusters:
                         relationshipTypes: ['LINKS_TO'],
                         relationshipWeightProperty: 'weight',
                         maxLevels:100,
-                        maxIterations:105,
+                        maxIterations:100,
                         tolerance:0.000005,
                         includeIntermediateCommunities:TRUE
                       }) YIELD communityCount,
@@ -77,11 +86,26 @@ class clusters:
         return result.single()
 
     def create_clusters_db(self):
-        with self.driver.session(database=self.database) as session:
+        with self.driver.session(database=self.database) as session:            
+            param=1.0
+            max_mod=-1.5
+            modularity=0
+            while modularity>max_mod and modularity-max_mod>=0.01:
+                max_mod=modularity
+                session.write_transaction(self.set_weight_baseline)
+                session.write_transaction(self.set_weight_category, param)
+                a=session.write_transaction(self.set_cluster)
+                session.write_transaction(self.post_algo)
+                modularity=a[1]
+                print(modularity)
+                param=param + 0.1
+
+            param=param-0.2
             session.write_transaction(self.set_weight_baseline)
-            session.write_transaction(self.set_weight_category)
+            session.write_transaction(self.set_weight_category, param)
             a=session.write_transaction(self.set_cluster)
-            print(a)
+            modularity=a[1]
+            print(modularity)
             session.write_transaction(self.post_algo)
 
 

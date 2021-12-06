@@ -1,5 +1,4 @@
 import links_api
-import get_page_categories
 import time
 from neo4j import GraphDatabase
 import parallel_categories
@@ -44,14 +43,15 @@ class category_nodes:
             a=session.write_transaction(self.create_category_transaction, seed, categories)
             #print(a)
 
-def create_expand_categories(seed):
+def create_expand_categories(seed, links=None):
     db = category_nodes("bolt://localhost:7687", "neo4j", "1111", 'category2')
-    links=links_api.get_links(title=seed)
+    if links is None:
+        links=links_api.get_links(title=seed)
+        
     links.append(seed)
 
-    category_set=set()
+    #category_set=set()
 
-    start_time = time.time()
 
     category_dict=parallel_categories.get_categories(links)
     for category_key in category_dict:
@@ -67,11 +67,9 @@ def create_expand_categories(seed):
 
 
 
-    print("--- %s seconds ---" % (time.time() - start_time))
-
     db.close()
 
-create_expand_categories("Spectral lines")
+#create_expand_categories("Spectral lines")
 
 
 

@@ -37,9 +37,9 @@ def get_categories(urls=None):
             return [await asyncio.gather(*tasks), x]
             
             
-    start_time = time.time()
+    #start_time = time.time()
     r=asyncio.run(get_connections())
-    print("--- %s seconds ---" % (time.time() - start_time))
+    #print("--- %s seconds ---" % (time.time() - start_time))
 
     x=r[1]
     temp=r[0]

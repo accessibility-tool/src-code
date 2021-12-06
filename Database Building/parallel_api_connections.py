@@ -39,18 +39,24 @@ def parallel_api_connections(seed=None, url_list=None):
         search_strings[i]=search_string.replace(" ", "_")
 
 
-    async def fetch(session, PARAMS):
+    async def fetch(session, PARAMS, sem):
         async with session.get(URL, params=PARAMS) as response:
             try:
                 data=await response.json()
                 return data
             except:
-                return await fetch(session, PARAMS)
+                return await bound_fetch(session, PARAMS, sem)
+
+    async def bound_fetch(session, PARAMS, sem):
+    # Getter function with semaphore.
+        async with sem:
+            return await fetch(session, PARAMS, sem)
 
     async def get_connections():
         async with aiohttp.ClientSession() as session:
             tasks=[]
             x=[]
+            sem = asyncio.Semaphore(200)
             for url in urls:
                 for search_string in search_strings:
                     PARAMS = {
@@ -61,7 +67,7 @@ def parallel_api_connections(seed=None, url_list=None):
                         "pllimit":"500",
                         "pltitles": search_string,
                     }
-                    t=asyncio.ensure_future(fetch(session, PARAMS))
+                    t=asyncio.ensure_future(bound_fetch(session, PARAMS, sem))
                     tasks.append(t)
                     # if url=="Apple Computer, Inc. v. Microsoft Corp.":
                     #     print(await t)
@@ -70,10 +76,10 @@ def parallel_api_connections(seed=None, url_list=None):
             return [await asyncio.gather(*tasks), x]
             
             
-    start_time = time.time()
+    #start_time = time.time()
     r=asyncio.run(get_connections())
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print(len(r[0]))
+    #print("--- %s seconds ---" % (time.time() - start_time))
+    #print(len(r[0]))
 
     x=r[1]
     temp=r[0]

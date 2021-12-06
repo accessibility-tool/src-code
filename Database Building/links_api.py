@@ -31,6 +31,13 @@ def get_links(title, search_string="", continue_string=""):
     DATA=list(map(lambda x:x['title'], DATA))
     if "continue" in t.keys():
         DATA=DATA+get_links(title, search_string, t['continue']['plcontinue'])
+
+    def filter_foo(s):
+        if s.find("Wikipedia:") == -1 and s.find("(identifier)") == -1 and s.find("Help:") == -1 and s.find("Category:") == -1 and s.find("Portal:") == -1 and s.find("Template:") == -1:
+            return True
+        return False
+
+    DATA=list(filter( filter_foo , DATA))
     return DATA
 
 #print(get_links("Apple Computer, Inc. v. Microsoft Corp.","",""))
