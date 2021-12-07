@@ -99,7 +99,7 @@ if (regex.test(url)) {
     linkdiv.appendChild(btn3);
     linksoutput.style.font = "16px Calibri";
     linkdiv.appendChild(linksoutput);
-    
+    var summ = '';
     
   
     let mees = "hi"; 
