@@ -10,7 +10,7 @@
 // @description 22/11/2021, 02:41:03
 // ==/UserScript==
 
-API_URL = "https://dd2b-124-253-42-145.ngrok.io/";
+API_URL = "https://3f1c-124-253-42-117.ngrok.io/";
 
 //get the url of the page
 let url = window.location.href;
@@ -168,10 +168,9 @@ if (regex.test(url)) {
     get_resp_clus().then((data) => {
       //console.log(data);
       linksoutput.textContent = data.recommendations.toString().split(',').join(', ');
-    });
+    }); });
       
     get_sum().then((data1) => {
-      console
       summ = data1.summary;
     });
       
@@ -193,10 +192,9 @@ if (regex.test(url)) {
       console.log(Object.values(data.recommendations));
       //linksoutput.textContent = data.recommendations;
     });
-    });
     document.getElementById("summary").addEventListener("click", function() {
     console.log("clickedsummary");
-    summarydiv.textContent = "Summary: " + data1.summary;
+    summarydiv.textContent = "Summary: " + summ;
     summarydiv.style.font = "bold";
      });
   });
